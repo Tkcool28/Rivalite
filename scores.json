@@ -1,1 +1,1 @@
-{"games":[{"as":0,"clock":"","hs":0,"id":2026020106,"period":"","players":{},"state":"scheduled"},{"as":0,"clock":"","hs":0,"id":2026020107,"period":"","players":{},"state":"scheduled"}],"updated":"2026-10-14T15:40:00Z"}
+{"updated": "2026-10-14T20:39:19Z", "games": [{"id": 2026020106, "state": "scheduled", "as": 0, "hs": 0, "period": "", "clock": "", "players": {}}, {"id": 2026020107, "state": "scheduled", "as": 0, "hs": 0, "period": "", "clock": "", "players": {}}]}
