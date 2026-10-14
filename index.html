@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>RIVALITE — Parlay Showdown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#14092b; --panel:#1e1038; --panel2:#251544;
+  --cyan:#00e5ff; --mag:#ff2e88; --yel:#ffe14d; --grn:#39ff6a; --red:#ff5252;
+  --p1:#ff6b35; --p2:#8e2f4a; --p2hi:#c0c0c0;
+  --ink:#f4f1ff; --dim:#9d8fc7;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html{background:var(--bg);}
+body{
+  margin:0; color:var(--ink);
+  font-family:'Courier New',monospace; font-size:14px; line-height:1.45;
+  background:
+    radial-gradient(ellipse at 50% -10%, #2c1656 0%, transparent 60%),
+    repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 2px, transparent 2px 4px),
+    var(--bg);
+  min-height:100vh; padding-bottom:120px;
+}
+h1,h2,h3,.px{font-family:'Press Start 2P',monospace;}
+a{color:var(--cyan);}
+.wrap{max-width:860px; margin:0 auto; padding:10px 10px 0;}
+/* ---------- header ---------- */
+.hdr{text-align:center; padding:14px 6px 8px;}
+.hdr h1{
+  font-size:26px; margin:6px 0 2px; letter-spacing:2px;
+  background:linear-gradient(180deg,var(--yel) 20%,var(--p1) 55%,var(--mag) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 0 10px rgba(255,46,136,.55)) drop-shadow(3px 3px 0 #000);
+}
+.hdr .sub{color:var(--cyan); font-size:11px; letter-spacing:1px; text-shadow:0 0 8px rgba(0,229,255,.6);}
+.vsrow{display:flex; align-items:center; justify-content:center; gap:8px; margin:10px 0 4px;}
+.fighter{width:132px; text-align:center;}
+.fighter img{
+  width:104px; height:104px; object-fit:cover; image-rendering:pixelated;
+  border:4px solid var(--p1); box-shadow:0 0 14px rgba(255,107,53,.7), 4px 4px 0 #000;
+  background:#000;
+}
+.fighter.p2 img{border-color:var(--p2hi); box-shadow:0 0 14px rgba(192,192,192,.6), 4px 4px 0 #000;}
+.fighter .nm{font-family:'Press Start 2P'; font-size:10px; margin-top:6px;}
+.fighter.p1 .nm{color:var(--p1);} .fighter.p2 .nm{color:#e8a0b4;}
+.fighter .pts{font-family:'Press Start 2P'; font-size:13px; color:var(--yel); margin-top:4px; text-shadow:2px 2px 0 #000;}
+.vs{font-family:'Press Start 2P'; font-size:22px; color:var(--mag);
+  text-shadow:0 0 12px var(--mag), 3px 3px 0 #000; animation:blink 1.2s steps(2) infinite;}
+@keyframes blink{50%{opacity:.55;}}
+.lockline{font-size:11px; color:var(--dim); margin-top:6px;}
+/* ---------- iam ---------- */
+.iam{display:flex; justify-content:center; gap:10px; margin:8px 0 2px; align-items:center;}
+.iam .lbl{font-size:11px; color:var(--dim);}
+.pbtn{
+  font-family:'Press Start 2P'; font-size:11px; padding:10px 14px; cursor:pointer;
+  color:#fff; background:#2a1a4d; border:3px solid #000;
+  box-shadow:inset -3px -3px 0 rgba(0,0,0,.45), inset 3px 3px 0 rgba(255,255,255,.12), 3px 3px 0 #000;
+}
+.pbtn.on1{background:var(--p1); box-shadow:0 0 12px var(--p1), 3px 3px 0 #000;}
+.pbtn.on2{background:var(--p2); box-shadow:0 0 12px var(--p2hi), 3px 3px 0 #000;}
+/* ---------- panels ---------- */
+.panel{
+  background:var(--panel); border:4px solid #000; margin:12px 0; padding:10px;
+  box-shadow:inset -4px -4px 0 rgba(0,0,0,.4), inset 4px 4px 0 rgba(255,255,255,.05), 5px 5px 0 #000;
+  position:relative;
+}
+.panel > h2{
+  font-size:12px; margin:2px 0 10px; color:var(--yel);
+  text-shadow:2px 2px 0 #000; letter-spacing:1px;
+}
+.panel h2 .tag{font-size:9px; color:var(--cyan);}
+/* games */
+.game{border:3px solid #000; background:var(--panel2); margin:8px 0; padding:8px; box-shadow:4px 4px 0 #000;}
+.game .gt{font-family:'Press Start 2P'; font-size:11px; margin-bottom:2px;}
+.game .gt .tm{color:var(--dim); font-size:9px;}
+.game .sc{font-family:'Press Start 2P'; font-size:10px; color:var(--grn); margin:4px 0; min-height:14px;}
+.mkt{margin:8px 0 2px;}
+.mkt .mh{font-size:10px; color:var(--cyan); letter-spacing:1px; margin-bottom:4px; font-weight:bold;}
+.lines{display:flex; flex-wrap:wrap; gap:6px;}
+.line{
+  font-family:'Courier New',monospace; font-weight:bold; font-size:12px;
+  background:#120826; color:var(--ink); border:2px solid var(--dim);
+  padding:8px 8px; cursor:pointer; box-shadow:2px 2px 0 #000;
+}
+.line small{color:var(--yel);}
+.line.sel{border-color:var(--grn); color:#fff; background:#0d3a1e; box-shadow:0 0 10px var(--grn), 2px 2px 0 #000;}
+.line:disabled{opacity:.45; cursor:default;}
+/* builder */
+.ticket{background:#0f0620; border:3px dashed var(--dim); padding:8px; margin:8px 0; min-height:52px;}
+.ticket .tleg{display:flex; justify-content:space-between; padding:4px 2px; border-bottom:1px dotted #3a2a5e; font-size:12px;}
+.ticket .tleg button{background:none; border:none; color:var(--red); font-weight:bold; cursor:pointer; font-size:14px;}
+.brow{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:8px 0;}
+.brow label{font-size:11px; color:var(--dim);}
+select, input[type=number], input[type=text]{
+  font-family:'Courier New',monospace; font-size:14px; font-weight:bold;
+  background:#0f0620; color:var(--yel); border:2px solid var(--dim); padding:8px;
+}
+.abtn{
+  font-family:'Press Start 2P'; font-size:11px; padding:12px 14px; cursor:pointer; color:#04121a;
+  background:var(--grn); border:3px solid #000;
+  box-shadow:inset -3px -3px 0 rgba(0,0,0,.35), 3px 3px 0 #000; text-shadow:none;
+}
+.abtn:disabled{background:#3a3a4a; color:#888; cursor:default;}
+.abtn.warn{background:var(--yel);}
+.oddsline{font-family:'Press Start 2P'; font-size:11px; color:var(--cyan); margin:8px 0; text-shadow:2px 2px 0 #000;}
+/* slip */
+.play{border:3px solid #000; background:#150a2c; margin:8px 0; padding:8px; box-shadow:3px 3px 0 #000;}
+.play .ph{display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;}
+.play .pt{font-family:'Press Start 2P'; font-size:10px; color:var(--mag);}
+.play .podd{font-size:11px; color:var(--yel);}
+.play .pleg{font-size:12px; padding:2px 0; color:var(--ink);}
+.play .pleg .st{float:right; font-weight:bold;}
+.st.win{color:var(--grn);} .st.loss{color:var(--red);} .st.push{color:var(--yel);} .st.live{color:var(--cyan);}
+.play .del{background:none; border:none; color:var(--red); font-size:16px; cursor:pointer; font-weight:bold;}
+.bankbar{
+  position:sticky; bottom:0; background:#0c0518; border-top:4px solid var(--mag);
+  padding:10px; display:flex; justify-content:space-between; align-items:center; z-index:5;
+  box-shadow:0 -4px 18px rgba(255,46,136,.35);
+}
+.bankbar .rem{font-family:'Press Start 2P'; font-size:12px; color:var(--yel);}
+.bankbar .rem.zero{color:var(--grn); text-shadow:0 0 10px var(--grn);}
+.sharebtn{
+  font-family:'Press Start 2P'; font-size:11px; padding:12px; cursor:pointer;
+  background:var(--cyan); color:#04121a; border:3px solid #000; box-shadow:3px 3px 0 #000;
+}
+.sharebtn:disabled{background:#3a3a4a; color:#777;}
+/* showdown */
+table.board{width:100%; border-collapse:collapse; font-size:12px;}
+table.board td, table.board th{border:2px solid #000; padding:6px; text-align:center;}
+table.board th{background:#0f0620; color:var(--cyan); font-size:10px;}
+.winner{
+  font-family:'Press Start 2P'; font-size:16px; text-align:center; padding:16px 8px; margin:10px 0;
+  border:4px solid var(--yel); background:#241003; color:var(--yel);
+  text-shadow:0 0 14px var(--yel), 3px 3px 0 #000; animation:blink 1s steps(2) infinite;
+}
+.note{font-size:11px; color:var(--dim); margin:6px 0;}
+.kbd{background:#000; border:1px solid var(--dim); padding:1px 5px; font-size:11px;}
+.hidden{display:none !important;}
+.marq{overflow:hidden; white-space:nowrap; border-top:3px solid #000; border-bottom:3px solid #000;
+  background:#000; color:var(--grn); font-size:11px; padding:5px 0; margin:8px -10px;}
+.marq span{display:inline-block; padding-left:100%; animation:mq 22s linear infinite;}
+@keyframes mq{to{transform:translateX(-100%);}}
+h3.sect{font-size:10px; color:var(--dim); margin:12px 0 4px; letter-spacing:1px;}
+.comm{background:#101010; border:3px solid var(--red); padding:8px; margin:8px 0;}
+.comm input{width:64px;}
+@media (max-width:520px){
+  .hdr h1{font-size:20px;} .fighter{width:110px;} .fighter img{width:84px;height:84px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hdr">
+    <div class="sub">★ SUPER PARLAY SHOWDOWN ★</div>
+    <h1>RIVALITE</h1>
+    <div class="sub" id="dateline">WED OCT 14 &bull; 2 NHL GAMES</div>
+    <div class="vsrow">
+      <div class="fighter p1">
+        <img src="assets/terry.png" alt="Terry">
+        <div class="nm">TERRY</div>
+        <div class="pts" id="pts-terry">1000 PTS</div>
+      </div>
+      <div class="vs">VS</div>
+      <div class="fighter p2">
+        <img src="assets/chandra.png" alt="Chandra">
+        <div class="nm">CHANDRA</div>
+        <div class="pts" id="pts-chandra">1000 PTS</div>
+      </div>
+    </div>
+    <div class="lockline" id="lockline">LINES LOCKED 9:30 AM MDT &bull; DRAFTKINGS</div>
+  </div>
+
+  <div class="marq"><span id="ticker">WELCOME TO RIVALITE ★ BUILD YOUR PARLAYS ★ SPEND ALL 1000 POINTS ★ MAY THE BEST GAMER WIN ★&nbsp;</span></div>
+
+  <div class="iam">
+    <span class="lbl">I AM:</span>
+    <button class="pbtn" id="btn-terry">TERRY</button>
+    <button class="pbtn" id="btn-chandra">CHANDRA</button>
+  </div>
+
+  <div class="panel" id="panel-lines">
+    <h2>▚ TONIGHT'S LINES <span class="tag" id="scorestatus">— SCORES: WAITING</span></h2>
+    <div id="games"></div>
+    <div class="note">Tap a line to add it to your ticket below. Lines are locked — they will not move today.</div>
+  </div>
+
+  <div class="panel" id="panel-build">
+    <h2>▚ BUILD-A-TICKET</h2>
+    <div class="brow">
+      <label>TYPE</label>
+      <select id="b-type">
+        <option value="parlay">PARLAY (one game)</option>
+        <option value="rr">ROUND ROBIN (mix games)</option>
+      </select>
+      <label id="b-gamelbl">GAME</label>
+      <select id="b-game"></select>
+      <label id="b-bylbl" class="hidden">BY</label>
+      <select id="b-by" class="hidden">
+        <option value="2">2s</option>
+        <option value="3">3s</option>
+      </select>
+    </div>
+    <div class="ticket" id="ticket"><div class="note">No legs yet — tap lines above.</div></div>
+    <div class="oddsline" id="tickodds"></div>
+    <div class="brow">
+      <label>STAKE (PTS)</label>
+      <input type="number" id="b-stake" min="1" max="1000" step="1" value="100" style="width:90px">
+      <button class="abtn" id="b-add">ADD TICKET</button>
+      <button class="abtn warn" id="b-clear">CLEAR</button>
+    </div>
+    <div class="note" id="b-rule">Parlays: 2–5 legs, one game, max 3 per game. Round robins: 2–5 legs across games, max 2. RR stake is split evenly across combos.</div>
+  </div>
+
+  <div class="panel" id="panel-slip">
+    <h2>▚ <span id="slipname">TERRY</span>'S SLIP</h2>
+    <div id="slip"></div>
+  </div>
+
+  <div class="panel hidden" id="panel-opp">
+    <h2>▚ OPPONENT'S SLIP — <span id="oppname"></span></h2>
+    <div id="oppslip"></div>
+    <div class="note" id="oppnote"></div>
+  </div>
+
+  <div class="panel" id="panel-board">
+    <h2>▚ SHOWDOWN BOARD</h2>
+    <div id="board"></div>
+  </div>
+
+  <div class="panel" id="panel-comm">
+    <h2>▚ COMMISSIONER <span class="tag">MANUAL SCORE ENTRY</span></h2>
+    <div class="note">If auto-scores fail, enter final scores here. Player-prop legs can be graded per-leg below.</div>
+    <div id="commgames"></div>
+  </div>
+
+  <div class="note" style="text-align:center">
+    Share link = your locked entry. Spend all <span class="kbd">1000</span> pts to unlock it.<br>
+    <span class="kbd">RIVALITE</span> — a 2-player points game. Not real money. DK lines locked <span id="locktime2"></span>.
+  </div>
+</div>
+
+<div class="bankbar">
+  <div class="rem" id="prem">REMAINING: 1000</div>
+  <button class="sharebtn" id="sharebtn" disabled>SHARE MY SLIP</button>
+</div>
+
+<script src="lines.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

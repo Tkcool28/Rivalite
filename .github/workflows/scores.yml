@@ -1,0 +1,20 @@
+name: Update NHL scores
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python update-scores.py
+      - run: |
+          git config user.name "rivalite-bot"
+          git config user.email "rivalite-bot@users.noreply.github.com"
+          git diff --quiet scores.json || (git add scores.json && git commit -m "scores update" && git push)
