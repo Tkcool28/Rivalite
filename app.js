@@ -260,6 +260,9 @@ function playHTML(p, pi, editable) {
   let legs = "";
   if (p.t === "p") {
     legs = g.legs.map(l => `<div class="pleg">${l.line.label} <b>${fmtAm(l.line.odds)}</b><span class="st ${l.st === "win" ? "win" : l.st === "loss" ? "loss" : l.st === "push" ? "push" : "live"}">${l.st.toUpperCase()}</span></div>`).join("");
+    const won = g.legs.filter(l => l.st === "win").length;
+    const decided = g.legs.filter(l => l.st !== "pending").length;
+    if (decided) legs += `<div class="pleg" style="color:var(--cyan)">▸ HIT ${won}/${g.legs.length} LEGS</div>`;
   } else {
     legs = p.legs.map(i => `<div class="pleg">${LINES[i].label} <b>${fmtAm(LINES[i].odds)}</b></div>`).join("")
       + `<div class="pleg" style="color:var(--cyan)">combos: ${g.w}W-${g.l}L-${g.pu}P${g.pend ? ` (${g.pend} pending)` : ""}</div>`;
@@ -305,9 +308,15 @@ function renderOpp() {
 
 /* ---------- showdown board ---------- */
 function totals(slip) {
-  let ret = 0, pend = 0, n = slip.length;
-  slip.forEach(p => { const g = gradePlay(p); ret += g.ret; if (g.status === "pending") pend++; });
-  return { ret, pend, n };
+  let ret = 0, pend = 0, n = slip.length, hits = 0;
+  slip.forEach(p => {
+    const g = gradePlay(p);
+    ret += g.ret;
+    if (g.status === "pending") pend++;
+    if (p.t === "p") hits += g.legs.filter(l => l.st === "win").length;
+    else hits += g.w; // winning RR combos
+  });
+  return { ret, pend, n, hits };
 }
 function renderBoard() {
   const el = document.getElementById("board");
@@ -322,8 +331,11 @@ function renderBoard() {
     html += `<td style="color:var(--yel)">${ot.ret}${ot.pend ? ` (${ot.pend} pend)` : ""}</td></tr></table>`;
     const meDone = mt.pend === 0, oDone = ot.pend === 0;
     if (meDone && oDone && mt.n && ot.n) {
+      const tieLine = `<br><span style="font-size:11px">${mt.ret} PTS each — legs hit ${mt.hits}-${ot.hits}</span>`;
       if (mt.ret > ot.ret) winHtml = `<div class="winner">🏆 ${NAMES[me]} WINS 🏆<br><span style="font-size:11px">${mt.ret} PTS vs ${ot.ret} PTS</span></div>`;
       else if (ot.ret > mt.ret) winHtml = `<div class="winner">🏆 ${opp.n.toUpperCase()} WINS 🏆<br><span style="font-size:11px">${ot.ret} PTS vs ${mt.ret} PTS</span></div>`;
+      else if (mt.hits > ot.hits) winHtml = `<div class="winner">🏆 ${NAMES[me]} WINS ON LEGS 🏆${tieLine}</div>`;
+      else if (ot.hits > mt.hits) winHtml = `<div class="winner">🏆 ${opp.n.toUpperCase()} WINS ON LEGS 🏆${tieLine}</div>`;
       else winHtml = `<div class="winner">🤝 TIE GAME 🤝<br><span style="font-size:11px">${mt.ret} PTS EACH</span></div>`;
     } else {
       winHtml = `<div class="note" style="text-align:center">Games in progress — board settles when all legs are final.</div>`;
@@ -332,13 +344,12 @@ function renderBoard() {
     html += `<td>—</td></tr></table><div class="note" style="text-align:center">Open your opponent's share link to load their slip for a head-to-head board.</div>`;
   }
   el.innerHTML = winHtml + html;
-  const hdrPts = k => {
-    const t = totals(slips[k]);
-    // pre-game (nothing decided): show the bank; once legs decide, show returned
-    return (t.n === 0 || t.pend === t.n) ? BANK : t.ret;
-  };
-  document.getElementById("pts-terry").textContent = hdrPts("terry") + " PTS";
-  document.getElementById("pts-chandra").textContent = hdrPts("chandra") + " PTS";
+  // Header = current points: unspent bank + returned winnings.
+  // After staking all 1000 pre-game this reads 0 (all points in play).
+  const slipFor = k => (opp && opp.n === k) ? opp.plays : slips[k];
+  const curPts = k => { const s = slipFor(k); return (BANK - spent(s)) + totals(s).ret; };
+  document.getElementById("pts-terry").textContent = curPts("terry") + " PTS";
+  document.getElementById("pts-chandra").textContent = curPts("chandra") + " PTS";
 }
 
 /* ---------- commissioner ---------- */
