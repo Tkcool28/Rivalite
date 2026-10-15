@@ -62,6 +62,22 @@ function gameData(gi) {
 }
 
 /* ---------- grading ---------- */
+/* Feed keys players as "A. Ovechkin"; lines use "Alex Ovechkin".
+   Match on first-initial + last name (exact hit first). */
+function findPlayer(players, fullName) {
+  if (!players) return null;
+  if (players[fullName]) return players[fullName];
+  const parts = fullName.trim().split(/\s+/);
+  const last = parts[parts.length - 1].toLowerCase();
+  const fi = parts[0] ? parts[0][0].toLowerCase() : "";
+  for (const k of Object.keys(players)) {
+    const kp = k.trim().split(/\s+/);
+    const klast = kp[kp.length - 1].toLowerCase();
+    const kfi = kp[0] ? kp[0][0].toLowerCase() : "";
+    if (klast === last && kfi === fi) return players[k];
+  }
+  return null;
+}
 function gradeLeg(li) {
   const line = LINES[li];
   const ov = manual.legs[li];
@@ -85,7 +101,7 @@ function gradeLeg(li) {
       return m > 0 ? "win" : (m < 0 ? "loss" : "push");
     }
     case "sog": case "points": {
-      const p = (g.players || {})[s.player];
+      const p = findPlayer(g.players, s.player);
       if (!p) return "pending";
       const v = line.mkt === "sog" ? p.sog : p.pts;
       if (v == null) return "pending";
@@ -93,7 +109,7 @@ function gradeLeg(li) {
       return m > 0 ? "win" : (m < 0 ? "loss" : "push");
     }
     case "atg": {
-      const p = (g.players || {})[s.player];
+      const p = findPlayer(g.players, s.player);
       if (!p || p.g == null) return "pending";
       return p.g >= 1 ? "win" : "loss";
     }
