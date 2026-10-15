@@ -63,16 +63,18 @@ function gameData(gi) {
 
 /* ---------- grading ---------- */
 /* Feed keys players as "A. Ovechkin"; lines use "Alex Ovechkin".
-   Match on first-initial + last name (exact hit first). */
+   Match on first-initial + last name (exact hit first).
+   Fold diacritics too: feed has "J. Slafkovský", lines use "Juraj Slafkovsky". */
+const fold = s => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
 function findPlayer(players, fullName) {
   if (!players) return null;
   if (players[fullName]) return players[fullName];
   const parts = fullName.trim().split(/\s+/);
-  const last = parts[parts.length - 1].toLowerCase();
+  const last = fold(parts[parts.length - 1]);
   const fi = parts[0] ? parts[0][0].toLowerCase() : "";
   for (const k of Object.keys(players)) {
     const kp = k.trim().split(/\s+/);
-    const klast = kp[kp.length - 1].toLowerCase();
+    const klast = fold(kp[kp.length - 1]);
     const kfi = kp[0] ? kp[0][0].toLowerCase() : "";
     if (klast === last && kfi === fi) return players[k];
   }
