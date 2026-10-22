@@ -1,0 +1,367 @@
+/* ============================================================================
+   BREEDERS' CUP SHOWDOWN — Kentucky luxe theme
+   Deep hunter green · antique gold · Keeneland cream · Playfair Display
+   ============================================================================ */
+:root {
+  --green-950: #07231b;
+  --green-900: #0a2e23;
+  --green-800: #0e3b2e;
+  --green-700: #14503d;
+  --gold: #c9a227;
+  --gold-soft: #e3c766;
+  --gold-pale: #f0e3b2;
+  --cream: #f7f1de;
+  --paper: #fdfaf1;
+  --ink: #22312a;
+  --ink-soft: #5a6a60;
+  --red: #9c2b2b;
+  --shadow: 0 10px 30px rgba(4, 26, 19, 0.28);
+  --radius: 14px;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 500px at 50% -120px, #17573f 0%, transparent 60%),
+    linear-gradient(180deg, var(--green-950) 0%, var(--green-900) 340px, #e9e2cd 340px, #e9e2cd 100%);
+  min-height: 100vh;
+  padding-bottom: 92px;
+}
+h1, h2, h3, .serif { font-family: "Playfair Display", Georgia, serif; }
+
+/* ------------------------------ Masthead -------------------------------- */
+.masthead {
+  text-align: center;
+  padding: 26px 16px 6px;
+  color: var(--cream);
+}
+.masthead .venue {
+  letter-spacing: 0.42em;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  margin: 0 0 6px;
+}
+.masthead h1 {
+  margin: 0;
+  font-size: clamp(30px, 8.5vw, 46px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--cream);
+  text-shadow: 0 2px 14px rgba(0,0,0,0.35);
+}
+.masthead h1 .gold { color: var(--gold-soft); font-style: italic; }
+.masthead .sub {
+  margin: 8px 0 0;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #cfd8c8;
+}
+.rule-gold {
+  width: 168px; height: 0; margin: 14px auto 0;
+  border-top: 1px solid var(--gold);
+  position: relative;
+}
+.rule-gold::after {
+  content: "◆";
+  position: absolute; top: -9px; left: 50%; transform: translateX(-50%);
+  color: var(--gold); font-size: 11px; background: transparent; padding: 0 6px;
+}
+
+/* ----------------------------- Scoreboard ------------------------------- */
+.scoreboard {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  max-width: 680px; margin: 16px auto 0; padding: 0 14px;
+}
+.player-card {
+  background: linear-gradient(180deg, #10402f, var(--green-800));
+  border: 1px solid rgba(201,162,39,0.65);
+  border-radius: var(--radius);
+  color: var(--cream);
+  padding: 12px 14px 10px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.player-card::before {
+  content: ""; position: absolute; inset: 4px;
+  border: 1px solid rgba(201,162,39,0.28); border-radius: 10px; pointer-events: none;
+}
+.player-card .pname {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 20px; margin: 0; display: flex; align-items: center; gap: 8px;
+}
+.player-card .crown { color: var(--gold-soft); font-size: 15px; }
+.player-card .bal { font-size: 26px; font-weight: 700; color: #fff; margin: 2px 0 0; }
+.player-card .bal small { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #bcd0bd; display: block; font-weight: 600; }
+.player-card .lines { font-size: 12px; color: #d8dfcd; margin-top: 6px; line-height: 1.55; }
+.player-card .lines b { color: var(--gold-pale); font-weight: 600; }
+.player-card .net-pos { color: #9fe6ae; }
+.player-card .net-neg { color: #f2a49b; }
+.scoreboard .weekend {
+  grid-column: 1 / -1; text-align: center; color: #31473b;
+  font-size: 12.5px; letter-spacing: 0.04em; margin-top: 2px;
+}
+.scoreboard .weekend b { color: var(--green-800); }
+
+/* ------------------------------ Controls -------------------------------- */
+.controls {
+  max-width: 680px; margin: 12px auto 0; padding: 0 14px;
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center;
+}
+.seg {
+  display: inline-flex; background: rgba(7,35,27,0.75);
+  border: 1px solid rgba(201,162,39,0.5); border-radius: 999px; padding: 3px;
+}
+.seg button {
+  border: 0; background: transparent; color: #cfd8c8; cursor: pointer;
+  font: 600 13px/1 "Avenir Next", system-ui, sans-serif;
+  padding: 8px 14px; border-radius: 999px; letter-spacing: 0.04em;
+}
+.seg button.active { background: var(--gold); color: var(--green-950); }
+.chip-btn {
+  border: 1px solid rgba(201,162,39,0.65); background: rgba(7,35,27,0.75);
+  color: var(--gold-pale); border-radius: 999px; padding: 8px 14px;
+  font: 600 13px/1 "Avenir Next", system-ui, sans-serif; cursor: pointer;
+}
+.chip-btn.on { background: var(--gold); color: var(--green-950); border-color: var(--gold); }
+.demo-banner {
+  max-width: 680px; margin: 10px auto 0; padding: 9px 14px;
+  background: #fff7d6; border: 1px solid var(--gold); border-radius: 10px;
+  color: #6b5510; font-size: 13px; text-align: center;
+}
+.import-banner {
+  max-width: 680px; margin: 10px auto 0; padding: 12px 14px;
+  background: var(--paper); border: 1px solid var(--gold); border-radius: 10px;
+  color: var(--ink); font-size: 14px; box-shadow: var(--shadow);
+  display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+}
+
+/* -------------------------------- Views --------------------------------- */
+main { max-width: 680px; margin: 14px auto 0; padding: 0 14px; }
+.odds-line {
+  text-align: center; color: #43604f; font-size: 12px;
+  letter-spacing: 0.1em; text-transform: uppercase; margin: 4px 0 12px;
+}
+.day-head { text-align: center; margin: 2px 0 12px; }
+.day-head h2 { margin: 0; font-size: 26px; color: var(--green-900); }
+.day-head p { margin: 2px 0 0; color: var(--ink-soft); font-size: 13px; letter-spacing: 0.06em; }
+
+/* ------------------------------ Race cards ------------------------------ */
+.race {
+  background: var(--paper);
+  border: 1px solid #d9cfae;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgba(30, 45, 35, 0.10);
+  margin-bottom: 14px; overflow: hidden;
+}
+.race.bc { border-color: var(--gold); box-shadow: 0 6px 22px rgba(120, 95, 20, 0.18); }
+.race-head {
+  padding: 12px 14px; cursor: pointer; display: flex; gap: 12px; align-items: flex-start;
+  background: linear-gradient(180deg, #fffdf6, var(--paper));
+}
+.race-num {
+  flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--green-800); color: var(--gold-pale);
+  border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Playfair Display", Georgia, serif; font-size: 19px; font-weight: 700;
+}
+.race-head h3 { margin: 1px 0 2px; font-size: 19px; line-height: 1.15; color: var(--green-900); }
+.race-head .detail { font-size: 12px; color: var(--ink-soft); letter-spacing: 0.03em; }
+.race-head .post { margin-left: auto; text-align: right; flex: 0 0 auto; }
+.race-head .post .t { font-weight: 700; color: var(--green-800); font-size: 14px; white-space: nowrap; }
+.race-head .post .l { font-size: 11px; color: var(--ink-soft); white-space: nowrap; }
+.badge {
+  display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 999px; vertical-align: middle;
+}
+.badge.gold { background: var(--gold); color: var(--green-950); }
+.badge.lock { background: #e7ddc2; color: #7a6420; }
+.badge.final { background: var(--green-800); color: var(--gold-pale); }
+.race-note { padding: 0 14px 10px; font-size: 12.5px; color: #7a6420; }
+.result-line {
+  margin: 0 14px 12px; padding: 9px 12px; border-radius: 10px;
+  background: #eef3e4; border: 1px solid #cfd8b8; font-size: 13px; color: #33473a;
+}
+.result-line b { color: var(--green-800); }
+
+/* ------------------------------ Horse table ----------------------------- */
+.horses { width: 100%; border-collapse: collapse; }
+.horses th {
+  text-align: left; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-soft); padding: 6px 10px; border-top: 1px solid #e5dcc0;
+}
+.horses th.num, .horses td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.horses td { padding: 8px 10px; border-top: 1px solid #efe8cf; font-size: 14px; vertical-align: middle; }
+.horses tr.sel td { background: #f5edd2; }
+.horses tr.win td { background: #eef3e4; }
+.silk {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 27px; height: 27px; border-radius: 6px; font-weight: 800; font-size: 13.5px;
+  border: 1px solid rgba(0,0,0,0.22); box-shadow: inset 0 -3px 0 rgba(0,0,0,0.12);
+}
+.hname { font-weight: 600; color: var(--ink); }
+.hname .tba { color: #9a8b58; font-weight: 500; font-style: italic; }
+.odds-now { font-weight: 700; color: var(--green-800); }
+.odds-drift { font-size: 11px; margin-left: 4px; }
+.up { color: var(--red); } .down { color: #2e7d32; }
+.parlay-add {
+  border: 1px solid var(--gold); background: transparent; color: #8a6d14;
+  border-radius: 999px; font-size: 11.5px; font-weight: 700; padding: 5px 9px; cursor: pointer;
+  white-space: nowrap;
+}
+.parlay-add:active { background: var(--gold); color: var(--green-950); }
+
+/* ------------------------------ Bet panel ------------------------------- */
+.betpanel { border-top: 1px solid #e5dcc0; padding: 10px 14px 14px; background: #fffdf6; }
+.tools { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.tools button {
+  border: 1px solid #cdbd83; background: #fff; color: var(--green-800);
+  padding: 7px 12px; border-radius: 999px; font-weight: 700; font-size: 12.5px; cursor: pointer;
+}
+.tools button.active { background: var(--green-800); color: var(--gold-pale); border-color: var(--green-800); }
+.toolbox { font-size: 14px; }
+.toolbox .hint { color: var(--ink-soft); font-size: 12.5px; margin: 0 0 8px; }
+.wps-parts { display: flex; gap: 8px; margin: 10px 0; flex-wrap: wrap; }
+.wps-parts label {
+  display: inline-flex; gap: 6px; align-items: center; cursor: pointer;
+  border: 1px solid #cdbd83; border-radius: 10px; padding: 8px 12px; font-weight: 700;
+  background: #fff;
+}
+.wps-parts input { width: 17px; height: 17px; accent-color: var(--green-800); }
+.stake-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+.stake-row label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.stake-row input[type="number"], .stake-row input[type="text"], .stake-row select {
+  border: 1px solid #cdbd83; border-radius: 10px; padding: 9px 10px; font-size: 15px;
+  background: #fff; color: var(--ink); width: 110px;
+}
+.cost-line { font-size: 13.5px; color: var(--green-800); font-weight: 700; }
+.btn {
+  border: 0; cursor: pointer; border-radius: 999px; padding: 11px 18px;
+  font: 700 14px/1 "Avenir Next", system-ui, sans-serif; letter-spacing: 0.03em;
+}
+.btn-gold { background: linear-gradient(180deg, var(--gold-soft), var(--gold)); color: var(--green-950); box-shadow: 0 3px 10px rgba(150,120,20,0.35); }
+.btn-green { background: var(--green-800); color: var(--gold-pale); }
+.btn-ghost { background: transparent; border: 1px solid #cdbd83; color: var(--green-800); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.pick-order {
+  display: inline-flex; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--gold); color: var(--green-950); font-size: 11.5px; font-weight: 800;
+  align-items: center; justify-content: center; margin-left: 6px;
+}
+.seq-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.seq-btns .btn { padding: 10px 14px; }
+
+/* ---------------------------- Sequence builder --------------------------- */
+.builder {
+  background: var(--paper); border: 1px solid var(--gold); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 16px; margin-bottom: 14px;
+}
+.builder h2 { margin: 0 0 4px; font-size: 23px; color: var(--green-900); }
+.builder .sub { color: var(--ink-soft); font-size: 13px; margin: 0 0 12px; }
+.leg-block { border-top: 1px solid #e5dcc0; padding: 10px 0; }
+.leg-block h4 { margin: 0 0 8px; font-size: 14px; color: var(--green-800); }
+.chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip {
+  border: 1.5px solid #cdbd83; background: #fff; border-radius: 999px; cursor: pointer;
+  padding: 7px 11px; font-size: 13px; font-weight: 600; color: var(--ink);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip.on { background: var(--green-800); color: var(--gold-pale); border-color: var(--green-800); }
+.chip .silk { width: 21px; height: 21px; font-size: 11.5px; border-radius: 5px; }
+
+/* ------------------------------- Bet slip -------------------------------- */
+.slip-summary {
+  background: var(--paper); border: 1px solid #d9cfae; border-radius: var(--radius);
+  padding: 13px 15px; margin-bottom: 12px; font-size: 14px; line-height: 1.7;
+}
+.slip-summary b { color: var(--green-800); }
+.bet-card {
+  background: var(--paper); border: 1px solid #d9cfae; border-left: 5px solid var(--gold);
+  border-radius: 12px; padding: 11px 13px; margin-bottom: 10px;
+}
+.bet-card.won { border-left-color: #2e7d32; }
+.bet-card.lost { border-left-color: #b0a58a; opacity: 0.88; }
+.bet-card .desc { font-weight: 700; color: var(--ink); font-size: 14.5px; line-height: 1.4; }
+.bet-card .meta { font-size: 12.5px; color: var(--ink-soft); margin-top: 3px; line-height: 1.5; }
+.bet-card .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 7px; }
+.status { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; }
+.status.pending { background: #efe6c8; color: #7a6420; }
+.status.won { background: #dcefd8; color: #256b2e; }
+.status.lost { background: #e8e2d2; color: #6d6250; }
+.ret { font-weight: 800; color: var(--green-800); }
+.ret.pos { color: #256b2e; }
+.mini-btn {
+  border: 1px solid #cdbd83; background: #fff; color: var(--green-800); cursor: pointer;
+  border-radius: 999px; padding: 6px 11px; font-size: 12px; font-weight: 700;
+}
+.mini-btn.rebet { background: var(--gold); border-color: var(--gold); color: var(--green-950); }
+.empty {
+  text-align: center; color: var(--ink-soft); padding: 26px 16px; font-size: 14.5px;
+  background: var(--paper); border: 1px dashed #cdbd83; border-radius: var(--radius);
+}
+.empty .serif { display: block; font-size: 20px; color: var(--green-800); margin-bottom: 4px; }
+
+/* ------------------------------ Parlay tray ------------------------------ */
+.parlay-tray {
+  position: fixed; left: 10px; right: 10px; bottom: 76px; z-index: 40;
+  max-width: 660px; margin: 0 auto;
+  background: var(--green-900); color: var(--cream);
+  border: 1px solid var(--gold); border-radius: 14px; box-shadow: var(--shadow);
+  padding: 11px 13px;
+}
+.parlay-tray h4 { margin: 0 0 5px; font-size: 15px; color: var(--gold-pale); }
+.parlay-tray .legs { font-size: 12.5px; line-height: 1.6; color: #dfe6d2; }
+.parlay-tray .legs button { background: none; border: 0; color: #f2a49b; cursor: pointer; font-size: 12px; }
+.parlay-tray .stake-row input { background: #0d3a2b; color: var(--cream); border-color: rgba(201,162,39,0.6); }
+.parlay-tray .cost-line { color: var(--gold-pale); }
+
+/* ------------------------------- Bottom nav ------------------------------ */
+.bottomnav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+  background: rgba(7, 35, 27, 0.97); border-top: 1px solid rgba(201,162,39,0.55);
+  display: flex; justify-content: space-around; padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+}
+.bottomnav button {
+  background: none; border: 0; color: #b9c8b4; cursor: pointer;
+  font: 700 12px/1.2 "Avenir Next", system-ui, sans-serif; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 7px 14px; border-radius: 999px;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.bottomnav button .ic { font-size: 17px; }
+.bottomnav button.active { color: var(--green-950); background: var(--gold); }
+
+/* ------------------------------ Results form ----------------------------- */
+.res-form { border-top: 1px solid #e5dcc0; margin-top: 10px; padding-top: 10px; }
+.res-form label { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-soft); margin: 9px 0 4px; }
+.res-form input {
+  width: 100%; border: 1px solid #cdbd83; border-radius: 10px; padding: 9px 10px;
+  font-size: 15px; background: #fff; color: var(--ink);
+}
+.res-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.res-grid input { width: 100%; }
+.help { font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; }
+details.howto {
+  background: var(--paper); border: 1px solid #d9cfae; border-radius: var(--radius);
+  padding: 12px 15px; margin: 16px 0; font-size: 13.5px; line-height: 1.65; color: var(--ink);
+}
+details.howto summary { font-family: "Playfair Display", Georgia, serif; font-size: 17px; color: var(--green-900); cursor: pointer; }
+details.howto b { color: var(--green-800); }
+.share-box {
+  width: 100%; border: 1px solid #cdbd83; border-radius: 10px; padding: 9px;
+  font-size: 12px; background: #fff; color: var(--ink); word-break: break-all;
+}
+.toast {
+  position: fixed; left: 50%; transform: translateX(-50%) translateY(20px);
+  bottom: 150px; z-index: 80; background: var(--green-950); color: var(--gold-pale);
+  border: 1px solid var(--gold); padding: 11px 18px; border-radius: 999px;
+  font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s; max-width: 92vw; text-align: center;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.footer-note { text-align: center; color: #5c7263; font-size: 12px; padding: 8px 20px 0; line-height: 1.6; }

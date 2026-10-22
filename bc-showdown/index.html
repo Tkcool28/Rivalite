@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#07231b">
+<title>Breeders' Cup Showdown — Terry vs Chandra · Keeneland</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="venue">Keeneland · Lexington, Kentucky</p>
+  <h1>The Breeders' Cup <span class="gold">Showdown</span></h1>
+  <p class="sub">Terry vs. Chandra · October 30–31, 2026</p>
+  <div class="rule-gold"></div>
+</header>
+
+<div id="scoreboard" class="scoreboard"></div>
+
+<div class="controls">
+  <span class="seg" id="meSeg" role="group" aria-label="I am"></span>
+  <span class="seg" id="daySeg" role="group" aria-label="Day"></span>
+  <button class="chip-btn" id="demoBtn" type="button">Demo Mode</button>
+  <button class="chip-btn" id="shareBtn" type="button">Share My Slip</button>
+</div>
+
+<div id="demoBanner"></div>
+<div id="importSlot"></div>
+<div id="shareSlot" style="max-width:680px;margin:10px auto 0;padding:0 14px;"></div>
+
+<main>
+  <section id="view-card"></section>
+  <section id="view-seq" hidden></section>
+  <section id="view-slip" hidden></section>
+  <section id="view-results" hidden></section>
+</main>
+
+<p class="footer-note">
+  A friendly points game — no real money, just bragging rights.<br>
+  Settlement follows the official chart payouts, entered in the Results tab (honor system).
+</p>
+
+<div id="parlayTray"></div>
+
+<nav class="bottomnav">
+  <button type="button" data-view="card" class="active"><span class="ic">♞</span>Race Card</button>
+  <button type="button" data-view="slip"><span class="ic">✦</span>Bet Slip</button>
+  <button type="button" data-view="results"><span class="ic">♛</span>Results</button>
+</nav>
+
+<div id="toast" class="toast" role="status"></div>
+
+<script src="data.js"></script>
+<script src="results.js"></script>
+<script src="demo.js"></script>
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
